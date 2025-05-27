@@ -9,7 +9,6 @@ import { ListItem } from 'components/list-item'
 import { projects } from 'content/projects'
 import { useScroll } from 'hooks/use-scroll'
 import { Layout } from 'layouts/default'
-import { button, useControls } from 'leva'
 import { clamp, mapRange } from 'lib/maths'
 import { useStore } from 'lib/store'
 import dynamic from 'next/dynamic'
@@ -70,52 +69,6 @@ export default function Home() {
 
   const [theme, setTheme] = useState('dark')
   const lenis = useStore(({ lenis }) => lenis)
-
-  // useControls(
-  //   'lenis',
-  //   () => ({
-  //     stop: button(() => {
-  //       lenis.stop()
-  //     }),
-  //     start: button(() => {
-  //       lenis.start()
-  //     }),
-  //   }),
-  //   [lenis]
-  // )
-
-  // useControls(
-  //   'scrollTo',
-  //   () => ({
-  //     immediate: button(() => {
-  //       lenis.scrollTo(30000, { immediate: true })
-  //     }),
-  //     smoothDuration: button(() => {
-  //       lenis.scrollTo(30000, { lock: true, duration: 10 })
-  //     }),
-  //     smooth: button(() => {
-  //       lenis.scrollTo(30000)
-  //     }),
-  //     forceScrollTo: button(() => {
-  //       lenis.scrollTo(30000, { force: true })
-  //     }),
-  //   }),
-  //   [lenis]
-  // )
-
-  // useEffect(() => {
-  //   if (!lenis) return
-
-  //   function onClassNameChange(lenis) {
-  //     console.log(lenis.className)
-  //   }
-
-  //   lenis.on('className change', onClassNameChange)
-
-  //   return () => {
-  //     lenis.off('className change', onClassNameChange)
-  //   }
-  // }, [lenis])
 
   useScroll(({ scroll }) => {
     setHasScrolled(scroll > 10)

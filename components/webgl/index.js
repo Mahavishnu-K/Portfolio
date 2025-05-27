@@ -2,7 +2,6 @@ import { Float, useGLTF } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useFrame as useRaf } from '@darkroom.engineering/hamo'
 import { useScroll } from 'hooks/use-scroll'
-//import { button, useControls } from 'leva' // Leva import correctly commented out
 import { mapRange } from 'lib/maths'
 import { useStore } from 'lib/store'
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
