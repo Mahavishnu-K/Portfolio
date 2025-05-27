@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { react } from 'react'
 import s from './docs.module.scss'
 
 export default function Docs() {
