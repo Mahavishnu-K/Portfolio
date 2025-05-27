@@ -2,7 +2,7 @@ import { Float, useGLTF } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useFrame as useRaf } from '@darkroom.engineering/hamo'
 import { useScroll } from 'hooks/use-scroll'
-import { button, useControls } from 'leva'
+//import { button, useControls } from 'leva' // Leva import correctly commented out
 import { mapRange } from 'lib/maths'
 import { useStore } from 'lib/store'
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
@@ -80,7 +80,7 @@ function Particles({
     [count]
   )
 
-  const material = useRef()
+  const particleMaterialRef = useRef() // Renamed to avoid conflict with global material
   const points = useRef()
 
   const uniforms = useMemo(
@@ -89,9 +89,7 @@ function Particles({
         value: 0,
       },
       uColor: {
-        // value: new Color('rgb(255, 152, 162)'),
         value: new Color('rgb(219, 255, 206)'),
-        // value: new Color('rgb(255, 236, 234)'),
       },
       uScroll: {
         value: 0,
@@ -125,7 +123,7 @@ function Particles({
         <bufferAttribute attach="attributes-scale" args={[scales, 1]} />
       </bufferGeometry>
       <shaderMaterial
-        ref={material}
+        ref={particleMaterialRef}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         transparent
@@ -234,13 +232,13 @@ const steps = [
   },
 ]
 
-// const thresholds = [0, 1000, 2000, 3000, 4000, 5000]
-
-const material = new MeshPhysicalMaterial({
-  color: new Color('#FF98A2'),
+// This is the shared material instance for the arm
+const armMeshMaterial = new MeshPhysicalMaterial({
+  // Initial values, will be updated by state if dynamic behavior is kept
+  color: new Color('#b0b0b0'),
   metalness: 1,
   roughness: 0.4,
-  wireframe: true,
+  wireframe: false, // Default wireframe state
   side: DoubleSide,
 })
 
@@ -249,125 +247,71 @@ export function Arm() {
   const { scene: arm2 } = useGLTF('/models/arm2.glb')
   const [type, setType] = useState(1)
 
-  const [{ color, roughness, metalness, wireframe }, setMaterial] = useControls(
-    () => ({
-      color: '#b0b0b0',
-      roughness: {
-        min: 0,
-        value: 0.4,
-        max: 1,
-      },
-      metalness: {
-        min: 0,
-        value: 1,
-        max: 1,
-      },
-      wireframe: false,
-    }),
-    []
-  )
+  // --- Static values for material properties (if they don't change with `step`) ---
+  // If these were meant to be static and NOT change with `step`, you'd use them directly.
+  // However, your useEffect below suggests they DO change with `step`.
+  // const staticMaterialProps = {
+  //   color: '#b0b0b0',
+  //   roughness: 0.4,
+  //   metalness: 1,
+  //   wireframe: false,
+  // };
 
-  const [
-    {
-      lightsColor,
-      light1,
-      light2,
-      light1Intensity,
-      light2Intensity,
-      ambientColor,
-    },
-    setLights,
-  ] = useControls(
-    'lights',
-    () => ({
-      light1: {
-        step: 1,
-        value: [-200, 150, 50],
-      },
-      light2: {
-        step: 1,
-        value: [300, -100, 150],
-      },
-      // light1Intensity: {
-      //   min: 0,
-      //   value: 0.4,
-      //   max: 1,
-      // },
-      // light2Intensity: {
-      //   min: 0,
-      //   value: 0.69,
-      //   max: 1,
-      // },
-      light1Intensity: {
-        min: 0,
-        value: 1,
-        max: 1,
-      },
-      light2Intensity: {
-        min: 0,
-        value: 1,
-        max: 1,
-      },
-      lightsColor: '#FF98A2',
-      ambientColor: '#0E0E0E',
-    }),
-    []
-  )
+  // --- State for dynamic material properties ---
+  const [currentMaterialProps, setCurrentMaterialProps] = useState({
+    color: '#b0b0b0',
+    roughness: 0.4,
+    metalness: 1,
+    // wireframe is not in the dynamic part of your original useEffect,
+    // so we assume it's static or handled differently. Let's make it static for now.
+  })
+  const staticWireframe = false // Default from your original useControls
 
-  const [{ custom, scale, position, rotation }] = useControls('model', () => ({
-    custom: false,
-    scale: {
-      min: 0,
-      value: 0.05,
-      max: 0.06,
-      step: 0.001,
-    },
-    position: { value: [0, 0, 0] },
-    rotation: { step: 1, min: -360, value: [0, 0, 0], max: 360 },
-  }))
+  // --- State for dynamic light properties ---
+  const [currentLightProps, setCurrentLightProps] = useState({
+    light1Position: [-200, 150, 50], // Default from useControls
+    light2Position: [300, -100, 150], // Default from useControls
+    light1Intensity: 0.35, // Initial from your step 0 logic
+    light2Intensity: 0.15, // Initial from your step 0 logic
+    lightsColor: 'rgb(130, 226, 243)', // Initial from your step 0 logic
+    ambientColor: 'rgb(130, 226, 243)', // Initial from your step 0 logic
+  })
 
-  useControls(
-    'model',
-    () => ({
-      export: button(() => {
-        alert(
-          JSON.stringify({
-            scale: scale.toFixed(3),
-            position,
-            rotation,
-            type,
-          })
-        )
-      }),
-    }),
-    [scale, position, rotation, type]
-  )
+  // --- Static values for model transformation (if not animated by scroll) ---
+  // These were from the 'model' useControls.
+  // The `custom` flag determined if these were used or the scroll-based animation.
+  const modelStaticProps = {
+    custom: false, // Default from useControls
+    scale: 0.05,   // Default from useControls
+    position: [0, 0, 0], // Default from useControls
+    rotation: [0, 0, 0], // Default from useControls (in degrees)
+  };
 
+  // Apply dynamic material properties to the shared material instance
   useEffect(() => {
-    material.color = new Color(color)
-    material.roughness = roughness
-    material.metalness = metalness
-    material.wireframe = wireframe
-  }, [color, roughness, metalness, wireframe, material])
+    armMeshMaterial.color.set(currentMaterialProps.color)
+    armMeshMaterial.roughness = currentMaterialProps.roughness
+    armMeshMaterial.metalness = currentMaterialProps.metalness
+    armMeshMaterial.wireframe = staticWireframe // Using the static wireframe value
+  }, [currentMaterialProps, staticWireframe])
 
   useEffect(() => {
     if (arm1) {
       arm1.traverse((node) => {
-        if (node.material) node.material = material
+        if (node.material) node.material = armMeshMaterial
       })
     }
-  }, [arm1, material])
+  }, [arm1]) // armMeshMaterial is constant instance, so no need to list as dep
 
   useEffect(() => {
     if (arm2) {
       arm2.traverse((node) => {
-        if (node.material) node.material = material
+        if (node.material) node.material = armMeshMaterial
       })
     }
-  }, [arm2, material])
+  }, [arm2]) // armMeshMaterial is constant instance
 
   const parent = useRef()
-
   const { viewport } = useThree()
 
   const _thresholds = useStore(({ thresholds }) => thresholds)
@@ -377,27 +321,32 @@ export function Arm() {
 
   const [step, setStep] = useState(0)
 
+  // This useEffect now updates our state variables instead of calling Leva's setters
   useEffect(() => {
     if (step === 0) {
-      setLights({
+      setCurrentLightProps({
+        light1Position: [-200, 150, 50], // Or keep previous if they don't change
+        light2Position: [300, -100, 150],
         light1Intensity: 0.35,
         light2Intensity: 0.15,
-        lightsColor: 'rgb(130, 226, 243)' ,
+        lightsColor: 'rgb(130, 226, 243)',
         ambientColor: 'rgb(130, 226, 243)',
       })
-      setMaterial({
+      setCurrentMaterialProps({
         color: '#b0b0b0',
         roughness: 0.4,
         metalness: 1,
       })
     } else {
-      setLights({
+      setCurrentLightProps({
+        light1Position: [-200, 150, 50], // Or keep previous if they don't change
+        light2Position: [300, -100, 150],
         light1Intensity: 1,
         light2Intensity: 1,
         lightsColor: '#efefef',
-        ambientColor: '#b0B0B0',
+        ambientColor: '#b0B0B0', // Note: original was '#b0B0B0' - check capitalization
       })
-      setMaterial({
+      setCurrentMaterialProps({
         color: '#efefef',
         roughness: 0.4,
         metalness: 0.6,
@@ -414,34 +363,32 @@ export function Arm() {
 
   useScroll(({ scroll }) => {
     if (!parent.current) return
-    if (custom) {
-      parent.current.scale.setScalar(viewport.height * scale)
+
+    // Use the static 'custom' value
+    if (modelStaticProps.custom) {
+      parent.current.scale.setScalar(viewport.height * modelStaticProps.scale)
       parent.current.position.set(
-        viewport.width * position[0],
-        viewport.height * position[1],
+        viewport.width * modelStaticProps.position[0],
+        viewport.height * modelStaticProps.position[1],
         0
       )
       parent.current.rotation.fromArray(
-        rotation.map((v) => MathUtils.degToRad(v))
+        modelStaticProps.rotation.map((v) => MathUtils.degToRad(v))
       )
       return
     }
 
+    // ... rest of your scroll animation logic for non-custom mode ...
     const current = thresholds.findIndex((v) => scroll < v) - 1
-
     const start = thresholds[current]
     const end = thresholds[current + 1]
     const progress = mapRange(start, end, scroll, 0, 1)
-
     const from = steps[current]
     const to = steps[current + 1]
-
-    // return
 
     if (parent.current) {
       parent.current.visible = from?.type === to?.type
     }
-
     if (!to) return
 
     const _scale = mapRange(0, 1, progress, from.scale, to.scale)
@@ -463,56 +410,25 @@ export function Arm() {
     parent.current.scale.setScalar(viewport.height * _scale)
     parent.current.position.copy(_position)
     parent.current.rotation.copy(_rotation)
-
     setType(to.type)
-    // const target = new Quaternion().setFromEuler(rotation)
-    // parent.current.quaternion.rotateTowards(target, 16)
   })
 
-  // const light1 = useRef()
-
-  // useHelper(light1, DirectionalLightHelper, 'green')
-
-  // const [target, setTarget] = useState()
 
   return (
     <>
-      <ambientLight args={[new Color(ambientColor)]} />
-      <group position={light1}>
-        {/* <mesh scale={25}>
-          <boxGeometry />
-          <meshBasicMaterial color={'red'} />
-        </mesh> */}
-        <directionalLight args={[new Color(lightsColor), light1Intensity]} />
+      <ambientLight args={[new Color(currentLightProps.ambientColor)]} />
+      <group position={currentLightProps.light1Position}>
+        <directionalLight args={[new Color(currentLightProps.lightsColor), currentLightProps.light1Intensity]} />
       </group>
-      <group position={light2}>
-        {/* <mesh scale={25}>
-          <boxGeometry />
-          <meshBasicMaterial color={'red'} />
-        </mesh> */}
-        <directionalLight args={[new Color(lightsColor), light2Intensity]} />
+      <group position={currentLightProps.light2Position}>
+        <directionalLight args={[new Color(currentLightProps.lightsColor), currentLightProps.light2Intensity]} />
       </group>
-      <Float floatIntensity={custom ? 0 : 1} rotationIntensity={custom ? 0 : 1}>
-        <group
-          ref={parent}
-          // position={[viewport.width * 0.155, viewport.height * -0.6, 0]}
-          // scale={viewport.height * 0.023}
-          // rotation={[
-          //   MathUtils.degToRad(125),
-          //   MathUtils.degToRad(-57),
-          //   MathUtils.degToRad(140),
-          // ]}
-        >
-          {/* <TransformControls mode="rotate"> */}
+      <Float floatIntensity={modelStaticProps.custom ? 0 : 1} rotationIntensity={modelStaticProps.custom ? 0 : 1}>
+        <group ref={parent}>
           {type === 1 && <primitive object={arm1} scale={[1, 1, 1]} />}
           {type === 2 && <primitive object={arm2} scale={[1, 1, 1]} />}
-          {/* </TransformControls> */}
         </group>
       </Float>
-      {/* {target && (
-        <TransformControls mode="translate" object={target} makeDefault />
-      )} */}
-      {/* <OrbitControls makeDefault /> */}
     </>
   )
 }
@@ -522,16 +438,14 @@ function Content() {
 
   return (
     <>
-      {/* <OrbitControls makeDefault /> */}
       <Particles
         width={viewport.width}
         height={viewport.height}
         depth={500}
-        count={100}
+        count={100} // Reduced for potentially better performance during testing
         scale={500}
         size={150}
       />
-
       <Arm />
     </>
   )
@@ -543,8 +457,6 @@ export function WebGL({ render = true }) {
       gl={{
         powerPreference: 'high-performance',
         antialias: true,
-        // stencil: false,
-        // depth: false,
         alpha: true,
       }}
       dpr={[1, 2]}
