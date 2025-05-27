@@ -1,11 +1,13 @@
+import { useRef } from 'react';
 import s from './docs.module.scss'
 
 export default function Docs() {
+  const contentRef = useRef();
 
   return (
     <div className={s.page}>
       <div id="wrapper" className={s.wrapper}>
-        <p id="content" className={s.content} ref={contentRef}>
+        <div id="content" className={s.content} ref={contentRef}>
           <h1>Documentation</h1>
           <p>Welcome to my portfolio's documentation page!</p>
           <ul>
@@ -16,8 +18,8 @@ export default function Docs() {
             <li>💡 Tips and custom components overview</li>
           </ul>
           <p>More coming soon!</p>
-        </p>
+        </div>
       </div>
     </div>
-  )
+  );
 }
