@@ -49,6 +49,14 @@
   font-weight: 900;
 }
 
+@font-face {
+    font-family: 'DxSitrus';
+    src: url('/fonts/DxSitrus.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
   --font-primary: 'Slussen';
+  --font-hero: 'DxSitrus', sans-serif;
 }

@@ -30,10 +30,7 @@ export function CustomHead({ title = '', description, image, keywords }) {
           name="keywords"
           content={keywords && keywords.length ? keywords.join(',') : keywords}
         />
-        <meta name="author" content="darkroom.engineering" />
-        <meta name="referrer" content="no-referrer" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="geo.region" content="US" />
+        <meta name="geo.region" content="IN" />
 
         {/* START FAVICON */}
         <link rel="manifest" href="/site.webmanifest" />
@@ -54,9 +51,9 @@ export function CustomHead({ title = '', description, image, keywords }) {
           sizes="16x16"
           href="/favicon-16x16.png"
         />
-        <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ff98a2" />
         <meta name="msapplication-TileColor" content="#000000" />
+        <meta name="author" content="Mahavishnu K" />
         <meta name="theme-color" content="#ffffff" />
         <link rel="icon" href="/favicon.ico" />
         {/* END FAVICON */}
@@ -68,12 +65,12 @@ export function CustomHead({ title = '', description, image, keywords }) {
           title,
           description,
           type: 'website',
-          locale: 'en_US',
+          locale: 'en_IN',
           images: [
             {
               url: image
                 ? image.url
-                : 'https://lenis.darkroom.engineering/og.png',
+                : 'https://mahavishnu-k.vercel.app/og.png',
               width: image ? image.width : 1200,
               height: image ? image.height : 630,
               alt: title,
@@ -81,10 +78,10 @@ export function CustomHead({ title = '', description, image, keywords }) {
           ],
           defaultImageWidth: 1200,
           defaultImageHeight: 630,
-          site_name: '',
+          site_name: 'Mahavishnu K - Developer Portfolio',
         }}
         twitter={{
-          handle: '@darkroomdevs',
+          handle: '@mahavishnu_07',
           cardType: 'summary_large_image',
         }}
       />

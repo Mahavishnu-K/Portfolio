@@ -65,9 +65,9 @@ export default function Page() {
     <>
       <CustomHead
         {...{
-          title: 'Mahavishnu K',
+          title: 'Mahavishnu K - Developer Portfolio',
           description:
-            'My portfolio',
+            'Portfolio of Mahavishnu K',
         }}
       />
 

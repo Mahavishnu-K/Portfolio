@@ -78,6 +78,7 @@ $intro-duration: 2050ms;
   .title {
     grid-column: 1 / -1;
     margin-top: mobile-vw(30px);
+    font-family: var(--font-hero);
     width: var(--layout-width);
 
     @include mobile {
@@ -85,7 +86,7 @@ $intro-duration: 2050ms;
     }
 
     @include desktop {
-      margin-top: desktop-vw(30px);
+      margin-top: desktop-vw(80px);
       position: absolute;
       top: 0;
       left: 2.5%;

@@ -1,13 +1,14 @@
 @import 'styles/_functions';
 
-$intro-in: 800ms;
+$intro-in: 1200ms;
 $intro-out: 1500ms;
-$merge-duration: 800ms;
+$merge-duration: 1100ms;
 
 .wrapper {
   height: 100vh;
   width: 100%;
   background-color: var(--pink);
+  font-family: var(--font-hero);
   position: fixed;
   top: 0;
   left: 0;
@@ -77,7 +78,6 @@ $merge-duration: 800ms;
 
 .letter {
   display: inline-block;
-  overflow: hidden;
   position: relative;
   transition: transform $merge-duration var(--ease-out-expo);
   opacity: 0;

@@ -54,6 +54,13 @@ export default function Document() {
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <link
+          href="/fonts/DxAlegant.otf"
+          as="font"
+          rel="preload prefetch"
+          type="font/otf"
+          crossOrigin="anonymous"
+        />
         
       </Head>
       <body>
