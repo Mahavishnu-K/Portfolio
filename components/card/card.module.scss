@@ -1,0 +1,110 @@
+@import 'styles/_functions';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  color: var(--theme-secondary);
+  border: 1px solid;
+  aspect-ratio: 1 / 1;
+  padding: mobile-vw(24px);
+  width: mobile-vw(343px);
+  background-color: var(--background);
+  backdrop-filter: blur(5px);
+  position: relative;
+  overflow: hidden;
+
+  &.inverted {
+    color: var(--theme-primary);
+    background-color: var(--theme-secondary);
+  }
+
+  &.hasImage {
+    // Adjust padding and spacing when image is present
+    gap: mobile-vw(16px);
+    
+    @include desktop {
+      gap: desktop-vw(20px);
+    }
+  }
+
+  @include desktop {
+    width: columns(4);
+    padding: desktop-vw(24px);
+  }
+
+  &.hasLink {
+    justify-content: space-between;
+  }
+
+  // Image container styles
+  .imageContainer {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: mobile-vw(8px);
+    min-height: mobile-vw(120px);
+
+    @include desktop {
+      border-radius: desktop-vw(8px);
+      min-height: desktop-vw(140px);
+    }
+
+    .image {
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  .in{
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .number {
+    color: var(--theme-contrast);
+    font-stretch: condensed;
+    font-weight: 900;
+    line-height: 86%;
+    letter-spacing: -0.02em;
+    font-size: mobile-vw(56px);
+
+    @include desktop {
+      font-size: desktop-vw(96px);
+    }
+  }
+
+  .text {
+    text-transform: uppercase;
+    font-stretch: expanded;
+    line-height: 100%;
+    letter-spacing: -0.01em;
+    font-size: mobile-vw(20px);
+
+    @include desktop {
+      font-size: desktop-vw(28px);
+    }
+
+    span {
+      font-stretch: normal;
+      font-weight: 600;
+    }
+  }
+  .endText {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; 
+    position: relative;
+  
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+}

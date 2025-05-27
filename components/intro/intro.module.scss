@@ -1,0 +1,124 @@
+@import 'styles/_functions';
+
+$intro-in: 800ms;
+$intro-out: 1500ms;
+$merge-duration: 800ms;
+
+.wrapper {
+  height: 100vh;
+  width: 100%;
+  background-color: var(--pink);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  overflow: hidden;
+
+  @include mobile {
+    display: none;
+  }
+
+  &.out {
+    transition: transform $intro-out var(--ease-out-expo);
+    transform: translate3d(0, -100%, 0);
+    transition-delay: calc($intro-in + 0ms);
+  }
+
+  .relative {
+    padding: desktop-vw(30px) desktop-vw(32.5px);
+    transition: transform $intro-out var(--ease-out-expo);
+    transform: translate3d(0, desktop-vh(250px), 0);
+    transition-delay: calc($intro-in + 0ms);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.vishnuWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.topRow {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  
+  h1 {
+    display: flex;
+    font-size: desktop-vw(300px);
+    font-weight: 700;
+    line-height: 0.8;
+    letter-spacing: desktop-vw(7px);
+    transition: letter-spacing $merge-duration var(--ease-out-expo);
+    
+    @include mobile {
+      font-size: 120px;
+      letter-spacing: -4px;
+    }
+  }
+}
+
+.mergeAnimation h1 {
+  letter-spacing: desktop-vw(8px);
+  
+  @include mobile {
+    letter-spacing: -10px;
+  }
+}
+
+.letter {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  transition: transform $merge-duration var(--ease-out-expo);
+  opacity: 0;
+}
+
+.start {
+  transform: translate3d(0, calc(var(--index) * 15% + 100%), 0);
+}
+
+.show {
+  transition: transform $intro-in var(--ease-out-expo);
+  transition-delay: calc(var(--index) * 100ms);
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+.spacer {
+  width: desktop-vw(35px);
+  display: inline-block;
+  transition: width $merge-duration var(--ease-out-expo);
+  
+  @include mobile {
+    width: 20px;
+  }
+  
+  &.hide {
+    width: 0;
+  }
+}
+
+/* Initial layout - V S N in top row, I H U vertically staggered */
+.mergeV { transform: translateX(0); }
+.mergeI { transform: translateX(0); }
+.mergeS { transform: translateX(0); }
+.mergeH { transform: translateX(0); }
+.mergeN { transform: translateX(0); }
+.mergeU { transform: translateX(0); }
+
+/* Mobile adjustments */
+@include mobile {
+  .topRow h1 {
+    font-size: 60px;
+  }
+}
