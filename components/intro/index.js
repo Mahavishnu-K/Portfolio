@@ -78,17 +78,17 @@ const VishnuAnimation = ({ isLoaded, introOut, fill, isAnimationComplete = false
     <div className={s.vishnuWrapper}>
       <div className={cn(s.topRow, introOut && s.mergeAnimation)}>
         <h1 style={{ color: fill }}>
-          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeV)} style={{ '--index': 0 }}>V</span>
+          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeV)} style={{ '--index': 0, padding: '60px 0px 60px 0px' }}>V</span>
           <span className={cn(s.spacer, introOut && s.hide)}></span>
-          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeI)} style={{ '--index': 6 }}>I</span>
+          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeI)} style={{ '--index': 6, padding: '60px 0px 60px 0px' }}>I</span>
           <span className={cn(s.spacer, introOut && s.hide)}></span>
-          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeS)} style={{ '--index': 0 }}>S</span>
+          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeS)} style={{ '--index': 0, padding: '60px 0px 60px 0px' }}>S</span>
           <span className={cn(s.spacer, introOut && s.hide)}></span>
-          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeH)} style={{ '--index': 6 }}>H</span>
+          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeH)} style={{ '--index': 6, padding: '60px 0px 60px 0px' }}>H</span>
           <span className={cn(s.spacer, introOut && s.hide)}></span>
-          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeN)} style={{ '--index': 0 }}>N</span>
+          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeN)} style={{ '--index': 0, color:'black', backgroundColor:'rgb(68, 227, 248)', padding: '60px 0px 60px 0px' }}>N</span>
           <span className={cn(s.spacer, introOut && s.hide)}></span>
-          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeU)} style={{ '--index': 6 }}>U</span>
+          <span className={cn(s.start, s.letter, (isLoaded || isAnimationComplete) && s.show, introOut && s.mergeU)} style={{ '--index': 6, color:'black', backgroundColor:'rgb(68, 227, 248)', padding: '60px 0px 60px 0px' }}>U</span>
         </h1>
       </div>
     </div>

@@ -8,7 +8,8 @@ $merge-duration: 1100ms;
   height: 100vh;
   width: 100%;
   background-color: var(--pink);
-  font-family: var(--font-hero);
+  //font-family: var(--font-hero);
+  font-stretch: expanded;
   position: fixed;
   top: 0;
   left: 0;
@@ -55,7 +56,7 @@ $merge-duration: 1100ms;
   
   h1 {
     display: flex;
-    font-size: desktop-vw(300px);
+    font-size: desktop-vw(230px);
     font-weight: 700;
     line-height: 0.8;
     letter-spacing: desktop-vw(7px);
