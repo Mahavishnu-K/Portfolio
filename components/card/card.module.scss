@@ -55,6 +55,19 @@
     .image {
       object-fit: cover;
       object-position: center;
+      max-width: 100%; 
+
+      @include mobile {
+        width: 225px;
+        height: auto;
+      }
+    }
+
+    .mongo {
+      @include mobile {
+        height: 155px !important;
+        width: auto;
+      }
     }
   }
 

@@ -365,6 +365,7 @@ export default function Home() {
               imageAlt="mongo db"
               width="auto"
               height="255px"
+              isMongo={true}
               text="Mongo DB"
             />
           </HorizontalSlides>

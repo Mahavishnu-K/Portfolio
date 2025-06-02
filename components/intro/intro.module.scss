@@ -64,7 +64,14 @@ $merge-duration: 1100ms;
     
     @include mobile {
       font-size: 120px;
-      letter-spacing: -4px;
+      letter-spacing: -16px;
+    }
+  }
+
+  .letterN, .letterU {
+    @include desktop {
+      color: black;
+      background-color: rgb(68, 227, 248);
     }
   }
 }
@@ -73,7 +80,7 @@ $merge-duration: 1100ms;
   letter-spacing: desktop-vw(8px);
   
   @include mobile {
-    letter-spacing: -10px;
+    letter-spacing: -4px;
   }
 }
 

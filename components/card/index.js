@@ -14,6 +14,7 @@ export const Card = ({
   image,
   width,
   height,
+  isMongo,
   end,
   projectLink,
   imageAlt = '',
@@ -39,19 +40,16 @@ export const Card = ({
         </div>
       ) : (
         <>
-            {/* Number at the top */}
             {number && (
               <p className={s.number}>{number.toString().padStart(2, '0')}</p>
             )}
             
-            {/* Image in the middle */}
             {image && (
               <div className={s.imageContainer}>
-                <img src={image} alt={imageAlt} className={s.image} width={width} height={height}/>
+                <img src={image} alt={imageAlt} className={cn(s.image, isMongo && s.mongo)} width={width} height={height}/>
               </div>
             )}
 
-            {/* Text at the bottom */}
             {text && <p className={s.text}>{text}</p>}
 
             {projectLink && (

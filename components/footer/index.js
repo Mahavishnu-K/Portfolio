@@ -11,8 +11,8 @@ export const Footer = () => {
     <footer className={cn('theme-light', s.footer)}>
       <div className={cn(s.top, 'layout-grid hide-on-mobile')}>
         <p className={cn(s['first-line'], 'h1')}>
-          find a<br/>
-          <span className="contrast">Nerd like me</span>
+          can't find a<br/>
+          <span className="contrast">Nerd like me?</span>
         </p>
         {/* <div className={s['shameless-plug']}>
           <p className="h4">Studio Freight</p>
@@ -41,10 +41,10 @@ export const Footer = () => {
           </p>
         </div> */}
         <p className={cn(s['first-line'], 'h1')}>
-          find a <br />
-          <span className="contrast">Nerd like me</span>
+          can't find a <br />
+          <span className="contrast">Nerd like me?</span>
           <br /> & drop a <br /> ping and team up!
-        </p>
+        </p>  
       </div>
       <div className={s.bottom}>
         <div className={s.links}>
