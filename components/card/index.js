@@ -1,6 +1,5 @@
 import cn from 'clsx'
 import s from './card.module.scss'
-import dynamic from 'next/dynamic'
 import { useStore } from 'lib/store'
 import { Button } from 'components/button'
 import FuzzyText from 'components/fuzzy-text'
