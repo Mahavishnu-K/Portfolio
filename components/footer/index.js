@@ -21,7 +21,7 @@ export const Footer = () => {
           </p>
         </div> */}
         <p className={cn(s['last-line'], 'h1')}>
-          & drop a <span className="hide-on-desktop">&nbsp;</span> ping{' '}
+          Then drop a <span className="hide-on-desktop">&nbsp;</span> ping{' '}
           <br /> and team up!
         </p>
         <Button
@@ -43,7 +43,7 @@ export const Footer = () => {
         <p className={cn(s['first-line'], 'h1')}>
           can't find a <br />
           <span className="contrast">Nerd like me?</span>
-          <br /> & drop a <br /> ping and team up!
+          <br /> Then drop a <br /> ping and team up!
         </p>  
       </div>
       <div className={s.bottom}>

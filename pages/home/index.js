@@ -261,8 +261,8 @@ export default function Home() {
                 Crafting Codes since printed "Hello World!"
               </h3>
               <p className="p">
-                I craft web apps with React, Flask, and Node.js, Day and Night, 
-                I'm adept at writing code and training models—basically, if it involves bringing machine learning to life, I'm your go-to. Just don't ask me to debug!
+                I craft robust and scalable web applications using React and Node.js, focusing on clean architecture and an excellent user experience.
+                I enjoy architecting the REST APIs that serve as the peace treaty between a demanding frontend and a busy backend. When I'm not doing that, I'm probably obsessing over how to make a database understand plain English.             
               </p>
             </div>
             <div className={s.feature}>

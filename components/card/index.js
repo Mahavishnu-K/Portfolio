@@ -15,11 +15,12 @@ export const Card = ({
   width,
   height,
   isMongo,
+  buttonText,
+  icon,
   end,
   projectLink,
   imageAlt = '',
 }) => {
-  const GitHub = dynamic(() => import('icons/github.svg'), { ssr: false })
   const introOut = useStore(({ introOut }) => introOut)
   
   return (
@@ -57,10 +58,10 @@ export const Card = ({
                 <Button
                   className={cn(introOut && s.in)}
                   arrow
-                  icon={<GitHub />}
+                  icon={icon}
                   href={projectLink}
                 >
-                  More about this
+                  {buttonText}
                 </Button>
               </div>
             )}
