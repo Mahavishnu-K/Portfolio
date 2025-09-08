@@ -6,6 +6,7 @@ import { GTM_ID } from 'lib/analytics'
 import { useStore } from 'lib/store'
 import Script from 'next/script'
 import { useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/next';
 import 'styles/global.scss'
 
 if (typeof window !== 'undefined') {
@@ -58,6 +59,7 @@ function MyApp({ Component, pageProps }) {
         </>
 
       <Component {...pageProps} />
+      <Analytics />
     </>
   )
 }

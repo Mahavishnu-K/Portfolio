@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-document-import-in-page */
 import { Head, Html, Main, NextScript } from 'next/document'
-import { Analytics } from '@vercel/analytics/next';
 
 export default function Document() {
   return (
@@ -67,7 +66,6 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        <Analytics />
       </body>
     </Html>
   )
